@@ -35,11 +35,14 @@ class Food(Entity):
     super().__init__(yellow, 10)
 
 def randomVector():
-  # Generates a random vector
+  # Generates a random vector position within the window
   return pygame.Vector2(random.randint(margin, int(res.x) - margin), random.randint(margin, int(res.y - margin)))
 
 #Initial lists
 foods = [Food() for x in range(foodAmount)]
+
+#Set title of the window
+pygame.display.set_caption("Simulation")
 
 surface.fill(backgroundColour)
 
@@ -50,6 +53,14 @@ while True:
     if event.type == pygame.QUIT:
       pygame.quit()
       sys.exit()
+
+  # Combines the list of entities
+  entities = foods # Add all future entities
+
+  #Iterates through each entity
+  for entity in entities:
+    # Draws each entity
+    entity.draw()
 
   pygame.display.update()
   clock.tick(60)
