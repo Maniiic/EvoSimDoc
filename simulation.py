@@ -68,6 +68,10 @@ while True:
   for entity in entities:
     # Draws each entity
     entity.draw()
+    
+    #For each consumer
+    if type(entity) == Consumer:
+      print("Creatures position is: ", entity.pos)
 
   pygame.display.update()
   clock.tick(60)
