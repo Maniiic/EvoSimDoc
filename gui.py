@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 class Button():
-  def __init__(self, xPos, yPos, textInput, width=0 , height=60, textCol = "white", buttonCol = "dark gray", fontSize = 25, fontStyle = "cambira", bold = False):
+  def __init__(self, xPos, yPos, textInput, width=0 , height=0, textCol = "white", buttonCol = "dark gray", fontSize = 25, fontStyle = "cambira", bold = False):
     # Initialises attributes
     self.xPos = xPos
     self.yPos = yPos
@@ -18,6 +18,8 @@ class Button():
     # Sets the width to be based on the length of the text if not specified
     if width == 0:
       width = self.fontSize/2 * len(textInput)
+    if height == 0:
+      height = self.fontSize + 10
     self.width = width
     self.height = height
 
