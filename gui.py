@@ -3,17 +3,23 @@ import pygame
 
 pygame.init()
 
-# Creates default font
-main_font = pygame.font.SysFont("cambira", 25)
+multiplier = 13
 
 class Button():
-  def __init__(self, xPos, yPos, textInput, width=60 , height=60, textCol = "white", buttonCol = "dark gray", font = main_font):
+  def __init__(self, xPos, yPos, textInput, width=0 , height=60, textCol = "white", buttonCol = "dark gray", fontSize = 25, fontStyle = "cambira", bold = False):
     # Initialises attributes
     self.xPos = xPos
     self.yPos = yPos
     self.textCol = textCol
     self.buttonCol = buttonCol
-    self.font = font
+    self.fontSize = fontSize
+    self.fontStyle = fontStyle
+    self.bold = bold
+    self.font = pygame.font.SysFont(self.fontStyle, self.fontSize, bold = self.bold)
+
+    # Sets the width to be based on the length of the text if not specified
+    if width == 0:
+      width = multiplier * len(textInput)
     self.width = width
     self.height = height
 
