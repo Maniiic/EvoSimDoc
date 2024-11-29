@@ -31,6 +31,9 @@ class Button():
     self.textInput = textInput
     self.text = self.font.render(self.textInput, True, self.textCol)
     self.textRect = self.text.get_rect(center=(self.xPos, self.yPos))
+
+    # Used to check if mouse is clicked once
+    self.canClick = True
   
   def update(self, screen):
     # Draw the button when it is updated
@@ -48,8 +51,15 @@ class Button():
   def check_click(self):
     # Check when the the button is clicked
     leftClick = pygame.mouse.get_pressed()[0]
-    if self.check_hover() and leftClick:
-      return True
+    if self.check_hover():
+      if leftClick:
+        if self.canClick: # Needed to prevent holding the mouse button repeatedly activating function
+          self.canClick = False
+          return True
+        else:
+          return False
+      else:
+        self.canClick = True
 
 
 
