@@ -36,4 +36,20 @@ class Button():
     # Draw the button when it is updated
     pygame.draw.rect(screen, self.buttonCol, self.rect, 0, 5)
     screen.blit(self.text, self.textRect)
+  
+  def check_hover(self):
+    # Check when the position of the mouse is above the button
+    mousePos = pygame.mouse.get_pos()
+    if self.rect.collidepoint(mousePos):
+      return True
+    else:
+      return False
+    
+  def check_click(self):
+    # Check when the the button is clicked
+    leftClick = pygame.mouse.get_pressed()[0]
+    if self.check_hover() and leftClick:
+      return True
+
+
 

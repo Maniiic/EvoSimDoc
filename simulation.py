@@ -24,7 +24,7 @@ margin = 50
 class Entity:
   def __init__(self, col, size):
     #Spawn with a random position on the screen, 
-    self.pos = randomVector()
+    self.pos = random_vector()
     self.col = col
     self.size = size
     
@@ -40,7 +40,7 @@ class Food(Entity):
   def __init__(self):
     super().__init__(yellow, 10)
 
-def randomVector():
+def random_vector():
   # Generates a random vector position within the window
   return pygame.Vector2(random.randint(margin, int(res.x) - margin), random.randint(margin, int(res.y - margin)))
 
