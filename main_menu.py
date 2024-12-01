@@ -1,8 +1,8 @@
 
-from tkinter import font
 import pygame
 import sys
 import gui
+import simulation
 
 pygame.init()
 
@@ -15,15 +15,12 @@ run = True
 backgroundColour = (0, 0, 0)
 
 # Buttons
-testButton1 = gui.Button(res.x/2, res.y/4, "Test")
-testButton2 = gui.Button(res.x/2, res.y/2, "Second Test", textCol="dark gray", buttonCol="white", fontSize=40, fontStyle="arial")
-testButtonQ = gui.Button(80, 80, "Q", fontSize=150)
-testButton3 = gui.Button(res.x/2, 3*res.y/4, "THIRD TEST", fontSize=15, bold=True)
-
-buttons = [testButton1, testButton2, testButton3, testButtonQ]
+startButton = gui.Button(res.x/2, res.y/4, "Start Simulation")
+quitButton = gui.Button(res.x/2, res.y/2, "Quit")
+buttons = [startButton, quitButton]
 
 def main_menu():
-  pygame.display.set_caption("Test screen")
+  pygame.display.set_caption("Main Menu")
 
   while True:
     surface.fill(backgroundColour)
@@ -32,17 +29,13 @@ def main_menu():
       button.update(surface)
 
     # Functions for each button
-    if testButton1.check_click():
-      print("Test button 1 clicked")
-
-    if testButton2.check_click():
-      print("Test button 2 clicked")
-
-    if testButton3.check_click():
-      print("Test button 3 clicked")
-
-    if testButtonQ.check_click():
-      print("Q button clicked")
+    if startButton.check_click():
+      exec(simulation)
+    
+    if quitButton.check_click():
+      # Close window
+      pygame.quit()
+      sys.exit()
 
     for event in pygame.event.get():
       # Close window
@@ -52,4 +45,6 @@ def main_menu():
 
     pygame.display.update()
     clock.tick(60)
+
+
 
