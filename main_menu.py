@@ -30,7 +30,7 @@ def main_menu():
 
     # Functions for each button
     if startButton.check_click():
-      exec(simulation)
+      simulation.main()
     
     if quitButton.check_click():
       # Close window
