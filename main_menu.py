@@ -42,6 +42,9 @@ def main_menu():
       pygame.quit()
       sys.exit()
 
+    # Functions for each slider
+    testSlider.move()
+
     for event in pygame.event.get():
       # Close window
       if event.type == pygame.QUIT:

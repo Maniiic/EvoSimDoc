@@ -84,3 +84,16 @@ class Slider():
     pygame.draw.rect(screen, "dark gray", self.rectTrack)
     pygame.draw.rect(screen, "blue", self.rectThumb)
 
+  def checkHover(self):
+    # Returns True when cursor is over track
+    mousePos = pygame.mouse.get_pos()
+    if self.rectTrack.collidepoint(mousePos):
+      return True
+
+  def move(self):
+    # Moves the slider when clicked / dragged
+    mousePos = pygame.mouse.get_pos()
+    leftClick = pygame.mouse.get_pressed()[0]
+    if self.checkHover() and leftClick:
+      self.rectThumb.center = mousePos
+
