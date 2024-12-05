@@ -87,13 +87,8 @@ class Slider():
   def checkHover(self):
     mousePos = pygame.mouse.get_pos()
 
-    # Gets the position of each side of the thumb
-    rightAdjustedPos = [mousePos[0] + self.width/20, mousePos[1]]
-    leftAdjustedPos = [mousePos[0] - self.width/20, mousePos[1]]
-    withinTrack = self.rectTrack.collidepoint(rightAdjustedPos) and self.rectTrack.collidepoint(leftAdjustedPos)
-
     # Returns True when cursor is over track
-    if withinTrack:
+    if self.rectTrack.collidepoint(mousePos):
       return True
 
   def move(self):
@@ -101,7 +96,15 @@ class Slider():
     mousePos = pygame.mouse.get_pos()
     leftClick = pygame.mouse.get_pressed()[0]
 
+    # Gets the position of each side of the thumb
+    rightAdjustedPos = [mousePos[0] + self.width/20, mousePos[1]]
+    leftAdjustedPos = [mousePos[0] - self.width/20, mousePos[1]]
+
     # Check where its clicked and move thumb
     if self.checkHover() and leftClick:
-      self.rectThumb.centerx = mousePos[0]
-
+      if self.rectTrack.collidepoint(rightAdjustedPos) == False:
+        self.rectThumb.centerx = self.rectTrack.right - self.rectThumb.width/2
+      elif self.rectTrack.collidepoint(leftAdjustedPos) == False:
+        self.rectThumb.centerx = self.rectTrack.left + self.rectThumb.width/2
+      else:
+        self.rectThumb.centerx = mousePos[0]
