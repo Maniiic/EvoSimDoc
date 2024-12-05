@@ -62,4 +62,25 @@ class Button():
         self.canClick = True
 
 
+class Slider():
+  def __init__(self, xPos, yPos, width=100 , height=20):
+    #Initialises attributes
+    self.xPos = xPos
+    self.yPos = yPos
+    self.width = width
+    self.height = height
+
+    # Creates a rectangle for the track
+    self.rectTrack = pygame.Rect(self.xPos, self.yPos, self.width, self.height) 
+    self.rectTrack.center = (self.xPos, self.yPos)
+
+    # Creates a rectangle for the thumb
+    self.rectThumb = pygame.Rect(self.xPos, self.yPos, self.width/10, self.height)
+    self.rectThumb.center = (self.xPos, self.yPos)
+
+
+  def update(self, screen):
+    # Draw the slider when it is updated
+    pygame.draw.rect(screen, "dark gray", self.rectTrack)
+    pygame.draw.rect(screen, "blue", self.rectThumb)
 

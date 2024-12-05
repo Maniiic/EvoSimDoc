@@ -19,6 +19,9 @@ startButton = gui.Button(res.x/2, res.y/4, "Start Simulation")
 quitButton = gui.Button(res.x/2, res.y/2, "Quit")
 buttons = [startButton, quitButton]
 
+# Sliders
+testSlider = gui.Slider(100, 50)
+
 def main_menu():
   pygame.display.set_caption("Main Menu")
 
@@ -27,6 +30,8 @@ def main_menu():
     
     for button in buttons:
       button.update(surface)
+
+    testSlider.update(surface)
 
     # Functions for each button
     if startButton.check_click():
