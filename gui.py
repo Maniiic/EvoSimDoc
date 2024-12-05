@@ -95,5 +95,6 @@ class Slider():
     mousePos = pygame.mouse.get_pos()
     leftClick = pygame.mouse.get_pressed()[0]
     if self.checkHover() and leftClick:
-      self.rectThumb.center = mousePos
+      self.rectThumb.centerx = mousePos[0]
+
 
