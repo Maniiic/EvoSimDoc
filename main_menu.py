@@ -20,7 +20,7 @@ quitButton = gui.Button(res.x/2, res.y/2, "Quit")
 buttons = [startButton, quitButton]
 
 # Sliders
-testSlider = gui.Slider(100, 50)
+testSlider = gui.Slider(100, 50, 0, 100, width=120)
 
 def main_menu():
   pygame.display.set_caption("Main Menu")

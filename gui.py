@@ -63,19 +63,23 @@ class Button():
 
 
 class Slider():
-  def __init__(self, xPos, yPos, width=100 , height=20):
+  def __init__(self, xPos, yPos, min, max, width=100 , height=20):
     #Initialises attributes
     self.xPos = xPos
     self.yPos = yPos
-    self.width = width
-    self.height = height
+    self.min = min
+    self.max = max
+    trackWidth = width
+    trackHeight = height
+    thumbWidth = trackWidth / 10
+    thumbHeight = trackHeight
 
     # Creates a rectangle for the track
-    self.rectTrack = pygame.Rect(self.xPos, self.yPos, self.width, self.height) 
+    self.rectTrack = pygame.Rect(self.xPos, self.yPos, trackWidth, trackHeight) 
     self.rectTrack.center = (self.xPos, self.yPos)
 
     # Creates a rectangle for the thumb
-    self.rectThumb = pygame.Rect(self.xPos, self.yPos, self.width/10, self.height)
+    self.rectThumb = pygame.Rect(self.xPos, self.yPos, thumbWidth, thumbHeight)
     self.rectThumb.center = (self.xPos, self.yPos)
 
 
@@ -97,8 +101,8 @@ class Slider():
     leftClick = pygame.mouse.get_pressed()[0]
 
     # Gets the position of each side of the thumb
-    rightAdjustedPos = [mousePos[0] + self.width/20, mousePos[1]]
-    leftAdjustedPos = [mousePos[0] - self.width/20, mousePos[1]]
+    rightAdjustedPos = [mousePos[0] + self.rectThumb.width/2, mousePos[1]]
+    leftAdjustedPos = [mousePos[0] - self.rectThumb.width/2, mousePos[1]]
 
     # Check where its clicked and move thumb
     if self.checkHover() and leftClick:
@@ -108,3 +112,16 @@ class Slider():
         self.rectThumb.centerx = self.rectTrack.left + self.rectThumb.width/2
       else:
         self.rectThumb.centerx = mousePos[0]
+      
+      print(self.changeVal())
+
+  def changeVal(self):
+    # Update the current value
+    range = self.max - self.min
+    effectiveWidth = self.rectTrack.width - self.rectThumb.width
+    distance = self.rectThumb.left - self.rectTrack.left
+    scale = distance / effectiveWidth
+    self.currentVal = self.min + scale * range
+    return self.currentVal
+
+
