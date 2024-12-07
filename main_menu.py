@@ -21,6 +21,7 @@ buttons = [startButton, quitButton]
 
 # Sliders
 testSlider = gui.Slider(100, 50, 0, 100, width=120)
+sliders = [testSlider]
 
 def main_menu():
   pygame.display.set_caption("Main Menu")
@@ -30,8 +31,9 @@ def main_menu():
     
     for button in buttons:
       button.update(surface)
-
-    testSlider.update(surface)
+    
+    for slider in sliders:
+      slider.update(surface)
 
     # Functions for each button
     if startButton.check_click():
@@ -43,7 +45,8 @@ def main_menu():
       sys.exit()
 
     # Functions for each slider
-    testSlider.move()
+    if testSlider.check_click():
+      print(testSlider.change_pos())
 
     for event in pygame.event.get():
       # Close window

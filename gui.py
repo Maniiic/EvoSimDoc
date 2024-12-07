@@ -82,40 +82,38 @@ class Slider():
     self.rectThumb = pygame.Rect(self.xPos, self.yPos, thumbWidth, thumbHeight)
     self.rectThumb.center = (self.xPos, self.yPos)
 
-
   def update(self, screen):
     # Draw the slider when it is updated
     pygame.draw.rect(screen, "dark gray", self.rectTrack)
     pygame.draw.rect(screen, "blue", self.rectThumb)
 
-  def checkHover(self):
-    mousePos = pygame.mouse.get_pos()
-
-    # Returns True when cursor is over track
-    if self.rectTrack.collidepoint(mousePos):
-      return True
-
-  def move(self):
+  def check_click(self):
     # Moves the slider when clicked / dragged
     mousePos = pygame.mouse.get_pos()
     leftClick = pygame.mouse.get_pressed()[0]
+
+    # Check when its clicked
+    if self.rectTrack.collidepoint(mousePos) and leftClick:
+      return True
+
+  def change_pos(self):
+    mousePos = pygame.mouse.get_pos()
 
     # Gets the position of each side of the thumb
     rightAdjustedPos = [mousePos[0] + self.rectThumb.width/2, mousePos[1]]
     leftAdjustedPos = [mousePos[0] - self.rectThumb.width/2, mousePos[1]]
 
-    # Check where its clicked and move thumb
-    if self.checkHover() and leftClick:
-      if self.rectTrack.collidepoint(rightAdjustedPos) == False:
-        self.rectThumb.centerx = self.rectTrack.right - self.rectThumb.width/2
-      elif self.rectTrack.collidepoint(leftAdjustedPos) == False:
-        self.rectThumb.centerx = self.rectTrack.left + self.rectThumb.width/2
-      else:
-        self.rectThumb.centerx = mousePos[0]
+    # Moves thumb depending on mouse position
+    if self.rectTrack.collidepoint(rightAdjustedPos) == False:
+      self.rectThumb.centerx = self.rectTrack.right - self.rectThumb.width/2
+    elif self.rectTrack.collidepoint(leftAdjustedPos) == False:
+      self.rectThumb.centerx = self.rectTrack.left + self.rectThumb.width/2
+    else:
+      self.rectThumb.centerx = mousePos[0]  
       
-      print(self.changeVal())
+    return self.change_val()
 
-  def changeVal(self):
+  def change_val(self):
     # Update the current value
     range = self.max - self.min
     effectiveWidth = self.rectTrack.width - self.rectThumb.width
