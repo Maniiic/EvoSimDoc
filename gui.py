@@ -63,12 +63,13 @@ class Button():
 
 
 class Slider():
-  def __init__(self, xPos, yPos, min, max, width=100 , height=20):
+  def __init__(self, xPos, yPos, min, max, step, width=100 , height=20):
     #Initialises attributes
     self.xPos = xPos
     self.yPos = yPos
     self.min = min
     self.max = max
+    self.step = step
     trackWidth = width
     trackHeight = height
     thumbWidth = trackWidth / 10
@@ -119,7 +120,8 @@ class Slider():
     effectiveWidth = self.rectTrack.width - self.rectThumb.width
     distance = self.rectThumb.left - self.rectTrack.left
     scale = distance / effectiveWidth
-    self.currentVal = self.min + scale * range
+    value = self.min + scale * range
+    self.currentVal = self.step * round(value / self.step)
     return self.currentVal
 
 
