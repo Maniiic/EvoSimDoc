@@ -15,12 +15,14 @@ run = True
 backgroundColour = (0, 0, 0)
 
 # Buttons
-startButton = gui.Button(res.x/2, res.y/4, "Start Simulation")
-quitButton = gui.Button(res.x/2, res.y/2, "Quit")
+startButtonText = gui.Text(12*res.x/16, 2*res.y/5, "Start Simulation")
+startButton = gui.Button(startButtonText)
+quitButtonText = gui.Text(12*res.x/16, 3*res.y/5, "Quit")
+quitButton = gui.Button(quitButtonText)
 buttons = [startButton, quitButton]
 
 # Sliders
-testSlider = gui.Slider(100, 50, 0, 100, 5, width=120)
+testSlider = gui.Slider(100, 50, 0, 100, step=2.5, width=120)
 sliders = [testSlider]
 
 def main_menu():
