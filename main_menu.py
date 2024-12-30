@@ -22,7 +22,7 @@ quitButton = gui.Button(quitButtonText)
 buttons = [startButton, quitButton]
 
 # Sliders
-testSlider = gui.Slider(100, 50, 0, 100, step=2.5, width=120)
+testSlider = gui.Slider(100, 50, 0, 40, step=15, width=120)
 sliders = [testSlider]
 
 def main_menu():

@@ -131,5 +131,7 @@ class Slider():
     distance = self.rectThumb.left - self.rectTrack.left
     scale = distance / effectiveWidth
     value = self.min + scale * range
-    self.currentVal = self.step * round(value / self.step)
+    newVal = self.step * round(value / self.step)
+    if newVal >= self.min and newVal <= self.max:
+      self.currentVal = self.step * round(value / self.step)
     return self.currentVal
