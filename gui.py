@@ -1,4 +1,5 @@
 
+import decimal
 import pygame
 
 pygame.init()
@@ -98,14 +99,23 @@ class Slider():
     pygame.draw.rect(screen, "dark gray", self.rectTrack)
     pygame.draw.rect(screen, "blue", self.rectThumb)
 
+  def check_hover(self):
+    # Check when the position of the mouse is above the button
+    mousePos = pygame.mouse.get_pos()
+    if self.rectTrack.collidepoint(mousePos):
+      return True
+    else:
+      return False
+
   def check_click(self):
     # Moves the slider when clicked / dragged
-    mousePos = pygame.mouse.get_pos()
     leftClick = pygame.mouse.get_pressed()[0]
 
     # Check when its clicked
-    if self.rectTrack.collidepoint(mousePos) and leftClick:
+    if self.check_hover() and leftClick:
       return True
+    else:
+      return False
 
   def change_pos(self):
     mousePos = pygame.mouse.get_pos()
@@ -132,6 +142,11 @@ class Slider():
     scale = distance / effectiveWidth
     value = self.min + scale * range
     newVal = self.step * round(value / self.step)
+
+    # Prevent round-off errors
+    decimals = abs(decimal.Decimal(str(self.step)).as_tuple().exponent) # Get the number of decimal places of the step
+    newVal = round(newVal, decimals)
+
     if newVal >= self.min and newVal <= self.max:
-      self.currentVal = self.step * round(value / self.step)
+      self.currentVal = newVal
     return self.currentVal
