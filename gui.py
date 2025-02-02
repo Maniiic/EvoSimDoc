@@ -81,23 +81,32 @@ class Slider():
     self.min = min
     self.max = max
     self.step = step
+
+    # Prevent round-off errors
+    decimals = abs(decimal.Decimal(str(self.step)).as_tuple().exponent) # Get the number of decimal places of the step
+    self.currentVal = round(self.step * round(((min+max)/2) / self.step), decimals)
+
     trackWidth = width
     trackHeight = height
     thumbWidth = trackWidth / 10
-    thumbHeight = trackHeight
+    self.thumbHeight = trackHeight
 
     # Creates a rectangle for the track
     self.rectTrack = pygame.Rect(self.xPos, self.yPos, trackWidth, trackHeight) 
     self.rectTrack.center = (self.xPos, self.yPos)
 
     # Creates a rectangle for the thumb
-    self.rectThumb = pygame.Rect(self.xPos, self.yPos, thumbWidth, thumbHeight)
+    self.rectThumb = pygame.Rect(self.xPos, self.yPos, thumbWidth, self.thumbHeight)
     self.rectThumb.center = (self.xPos, self.yPos)
 
   def update(self, screen):
     # Draw the slider when it is updated
     pygame.draw.rect(screen, "dark gray", self.rectTrack)
     pygame.draw.rect(screen, "blue", self.rectThumb)
+    
+    # Draw value under the slider
+    self.valText = Text(self.xPos, self.yPos+15+self.thumbHeight/2, str(self.currentVal))
+    self.valText.update(screen)
 
   def check_hover(self):
     # Check when the position of the mouse is above the button
