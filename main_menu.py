@@ -14,6 +14,15 @@ deltaTime = clock.tick(60)/1000
 run = True
 backgroundColour = (0, 0, 0)
 
+# Text
+titleText = gui.Text(5*res.x/16, res.y/10, "Evolution Simulator", fontSize=50)
+speedText = gui.Text(2*res.x/16, 4*res.y/10, "Speed:")
+rangeText = gui.Text(2*res.x/16, 6*res.y/10, "Range:")
+sizeText = gui.Text(2*res.x/16, 8*res.y/10, "Size:")
+valueText = gui.Text(4*res.x/16, 3*res.y/10, "Value")
+varianceText = gui.Text(7*res.x/16, 3*res.y/10, "Variance")
+texts = [titleText, speedText, rangeText, sizeText, valueText, varianceText]
+
 # Buttons
 startButtonText = gui.Text(12*res.x/16, 2*res.y/5, "Start Simulation")
 startButton = gui.Button(startButtonText)
@@ -22,8 +31,14 @@ quitButton = gui.Button(quitButtonText)
 buttons = [startButton, quitButton]
 
 # Sliders
-testSlider = gui.Slider(100, 50, 0.2, 2, step=0.2, width=120)
-sliders = [testSlider]
+startSpeedSlider = gui.Slider(4*res.x/16, 2*res.y/5, 50, 200)
+startRangeSlider = gui.Slider(4*res.x/16, 3*res.y/5, 30, 120)
+startSizeSlider = gui.Slider(4*res.x/16, 4*res.y/5, 3, 15)
+speedVarianceSlider = gui.Slider(7*res.x/16, 2*res.y/5, 1, 10)
+rangeVarianceSlider = gui.Slider(7*res.x/16, 3*res.y/5, 1, 10)
+sizeVarianceSlider = gui.Slider(7*res.x/16, 4*res.y/5, 0.2, 2, step=0.2)
+sliders = [startSpeedSlider, startRangeSlider, startSizeSlider, speedVarianceSlider, rangeVarianceSlider, sizeVarianceSlider]
+
 
 def main_menu():
   pygame.display.set_caption("Main Menu")
@@ -31,11 +46,11 @@ def main_menu():
   while True:
     surface.fill(backgroundColour)
     
-    for button in buttons:
-      button.update(surface)
-    
-    for slider in sliders:
-      slider.update(surface)
+    for element in texts + buttons + sliders:
+      element.update(surface)
+      if type(element) == gui.Slider:
+        if element.check_click():
+          element.change_pos()
 
     # Functions for each button
     if startButton.check_click():
@@ -45,10 +60,6 @@ def main_menu():
       # Close window
       pygame.quit()
       sys.exit()
-
-    # Functions for each slider
-    if testSlider.check_click():
-      print(testSlider.change_pos())
 
     for event in pygame.event.get():
       # Close window
