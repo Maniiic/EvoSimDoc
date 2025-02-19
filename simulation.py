@@ -39,8 +39,8 @@ class Consumer(Entity):
     super().__init__(white, 10) # Attributes shared by classes
 
   def update(self):
-    self.update_pos()
     self.update_vel()
+    self.update_pos()
       
   def update_vel(self):
     # Check if creature has reached its destination
