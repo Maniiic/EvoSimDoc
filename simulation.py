@@ -38,6 +38,22 @@ class Consumer(Entity):
   def __init__(self):
     super().__init__(white, 10) # Attributes shared by classes
 
+  def update(self):
+    self.update_pos()
+    self.update_vel()
+      
+  def update_vel(self):
+    # Check if creature has reached its destination
+    if self.pos.distance_to(self.path) <= self.size:
+      self.path = random_vector()
+    
+    # Calculate velocity
+    self.vel = pygame.Vector2(self.path - self.pos).normalize()*self.speed*deltaTime
+
+  def update_pos(self):
+    # Changes the position based on the current velocity
+    self.pos = self.pos + self.vel
+
 class Food(Entity):
   def __init__(self):
     super().__init__(yellow, 10)
@@ -76,8 +92,7 @@ def main():
       
       #For each consumer
       if type(entity) == Consumer:
-        print("Creatures position is: ", entity.pos)
-        foodReduction += 10
+        entity.update()
 
     pygame.display.update()
     clock.tick(60)
