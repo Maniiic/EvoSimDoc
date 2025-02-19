@@ -37,6 +37,7 @@ class Entity:
 class Consumer(Entity):
   def __init__(self):
     super().__init__(white, 10) # Attributes shared by classes
+    self.path = random_vector()
 
   def update(self):
     self.update_vel()
