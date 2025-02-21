@@ -83,10 +83,10 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
   #Set title of the window
   pygame.display.set_caption("Simulation")
 
-  surface.fill(backgroundColour)
-
   #Main Loop
   while True:
+    surface.fill(backgroundColour)
+
     #Close window
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
