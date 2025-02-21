@@ -1,6 +1,7 @@
 # Imports
 import sys
 import pygame
+import math
 import random
 
 #Constants
@@ -49,6 +50,8 @@ class Consumer(Entity):
     self.update_pos()
       
   def update_vel(self):
+    smallest = math.inf
+
     # Check if creature has reached its destination
     if self.pos.distance_to(self.path) <= self.size:
       self.path = random_vector()
