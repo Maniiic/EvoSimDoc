@@ -48,6 +48,7 @@ class Consumer(Entity):
   def update(self):
     self.update_vel()
     self.update_pos()
+    self.update_eating()
       
   def update_vel(self):
     smallest = math.inf
@@ -75,6 +76,20 @@ class Consumer(Entity):
     if distance <= self.senseRange and distance == smallest:
       self.path = target.pos
     return smallest
+
+  def update_eating(self):
+    # Check if food can be eaten
+    for food in foods:
+      if self.pos.distance_to(food.pos) <= self.size:
+        foods.remove(food)
+        self.consumer_ate()
+
+  def consumer_ate(self):
+    # Replenish some energy
+    self.energy += 50
+    # Might create a new creature
+    if random.randint(1,reproductionChance) == 1:
+      consumers.append(Consumer(self.pos, self.speed, self.senseRange, self.size))
 
 class Food(Entity):
   def __init__(self):
