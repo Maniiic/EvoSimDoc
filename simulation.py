@@ -53,12 +53,25 @@ class Consumer(Entity):
     if self.pos.distance_to(self.path) <= self.size:
       self.path = random_vector()
     
+    # Check for closest food
+    for food in foods:
+      smallest = self.path_finding(food,smallest)
+
     # Calculate velocity
     self.vel = pygame.Vector2(self.path - self.pos).normalize()*self.speed*deltaTime
 
   def update_pos(self):
     # Changes the position based on the current velocity
     self.pos = self.pos + self.vel
+
+  def path_finding(self, target: Entity, smallest):
+    # Sets the path to the closest target
+    distance = self.pos.distance_to(target.pos)
+    if distance < smallest:
+      smallest = distance
+    if distance <= self.senseRange and distance == smallest:
+      self.path = target.pos
+    return smallest
 
 class Food(Entity):
   def __init__(self):
