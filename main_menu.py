@@ -54,7 +54,7 @@ def main_menu():
 
     # Functions for each button
     if startButton.check_click():
-      simulation.main()
+      simulation.main(startSpeedSlider.currentVal, startRangeSlider.currentVal, startSizeSlider.currentVal, speedVarianceSlider.currentVal, rangeVarianceSlider.currentVal, sizeVarianceSlider.currentVal)
     
     if quitButton.check_click():
       # Close window

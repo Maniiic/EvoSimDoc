@@ -20,8 +20,6 @@ foodAmount = 5
 consumerAmount = 3
 margin = 50
 
-foodReduction = 0
-
 #Food and creatures will inherit from entity class
 class Entity:
   def __init__(self, col, size):
@@ -35,9 +33,16 @@ class Entity:
     pygame.draw.circle(surface, self.col, self.pos, self.size)
 
 class Consumer(Entity):
-  def __init__(self):
-    super().__init__(white, 10) # Attributes shared by classes
+  def __init__(self, pos, speed, senseRange, size):
+    super().__init__((255, 255, 255), size + random.uniform(-sizeVariance,sizeVariance)) # Attributes shared by classes
+    self.pos = pos
     self.path = random_vector()
+    self.energy = 100
+
+    # Initial traits
+    self.speed = speed + random.randint(-speedVariance, speedVariance)
+    self.senseRange = senseRange + random.randint(-senseVariance, senseVariance)
+
 
   def update(self):
     self.update_vel()
@@ -63,12 +68,17 @@ def random_vector():
   # Generates a random vector position within the window
   return pygame.Vector2(random.randint(margin, int(res.x) - margin), random.randint(margin, int(res.y - margin)))
 
-def main():
-  global foodReduction # Add all future global variables
+def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVariance, startSizeVariance, startReproductionChance= 2, consumerAmount=5, foodAmount=5):
+  foodReduction = 0 
+  global foods, consumers, speedVariance, senseVariance, sizeVariance, reproductionChance # Add all future global variables
+  speedVariance = startSpeedVariance
+  senseVariance = startSenseVariance
+  sizeVariance = startSizeVariance
+  reproductionChance = startReproductionChance # 1 / reproductionChance
 
-  #Initial lists
+  # Creates the inital list for creatures and food
   foods = [Food() for _ in range(foodAmount)]
-  consumers = [Consumer() for _ in range(consumerAmount)]
+  consumers = [Consumer(random_vector(), startSpeed, startRange, startSize) for _ in range(consumerAmount)]
 
   #Set title of the window
   pygame.display.set_caption("Simulation")
