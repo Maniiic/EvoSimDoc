@@ -49,6 +49,7 @@ class Consumer(Entity):
     self.update_vel()
     self.update_pos()
     self.update_eating()
+    self.update_energy()
       
   def update_vel(self):
     smallest = math.inf
@@ -90,6 +91,14 @@ class Consumer(Entity):
     # Might create a new creature
     if random.randint(1,reproductionChance) == 1:
       consumers.append(Consumer(self.pos, self.speed, self.senseRange, self.size))
+
+  def update_energy(self):
+    # Decrease energy over time
+    self.energy -= 1
+
+    # Kills creature
+    if self.energy <= 0:
+      consumers.remove(self)
 
 class Food(Entity):
   def __init__(self):
