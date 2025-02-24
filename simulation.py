@@ -94,7 +94,7 @@ class Consumer(Entity):
 
   def update_energy(self):
     # Decrease energy over time
-    self.energy -= 1
+    self.energy -= 0.25
 
     # Kills creature
     if self.energy <= 0:
