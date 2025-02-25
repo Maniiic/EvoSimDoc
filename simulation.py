@@ -97,6 +97,7 @@ class Consumer(Entity):
       if self.pos.distance_to(prey.pos) <= self.size:
         consumers.remove(prey)
         self.consumer_ate()
+        print("Creature ate prey.")
 
   def make_prey_list(self): 
     # Adds the creatures that are small enough to the list to be eaten
