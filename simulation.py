@@ -21,6 +21,9 @@ foodAmount = 5
 consumerAmount = 3
 margin = 50
 
+# Pygame event
+CREATE_FOOD = pygame.USEREVENT + 1
+
 #Food and creatures will inherit from entity class
 class Entity:
   def __init__(self, col, size):
@@ -109,16 +112,19 @@ def random_vector():
   return pygame.Vector2(random.randint(margin, int(res.x) - margin), random.randint(margin, int(res.y - margin)))
 
 def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVariance, startSizeVariance, startReproductionChance= 2, consumerAmount=5, foodAmount=5):
-  foodReduction = 0 
   global foods, consumers, speedVariance, senseVariance, sizeVariance, reproductionChance # Add all future global variables
   speedVariance = startSpeedVariance
   senseVariance = startSenseVariance
   sizeVariance = startSizeVariance
   reproductionChance = startReproductionChance # 1 / reproductionChance
+  foodDelay = 1000
 
   # Creates the inital list for creatures and food
   foods = [Food() for _ in range(foodAmount)]
   consumers = [Consumer(random_vector(), startSpeed, startRange, startSize) for _ in range(consumerAmount)]
+
+  # Starts the food generation
+  pygame.time.set_timer(CREATE_FOOD, foodDelay)
 
   #Set title of the window
   pygame.display.set_caption("Simulation")
@@ -132,6 +138,12 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
       if event.type == pygame.QUIT:
         pygame.quit()
         sys.exit()
+
+      # Continues generating food every so often
+      if event.type == CREATE_FOOD:
+        foods.append(Food())
+        foodDelay =+ 10
+        pygame.time.set_timer(CREATE_FOOD, foodDelay)
 
     # Combines the list of entities
     entities = foods + consumers # Add all future entities
