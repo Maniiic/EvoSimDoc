@@ -56,14 +56,17 @@ class Consumer(Entity):
       
   def update_vel(self):
     smallest = math.inf
+    preyList = self.make_prey_list()
 
     # Check if creature has reached its destination
     if self.pos.distance_to(self.path) <= self.size:
       self.path = random_vector()
     
-    # Check for closest food
+    # Check for closest thing to eat
     for food in foods:
       smallest = self.path_finding(food,smallest)
+    for prey in preyList:
+      smallest = self.path_finding(prey,smallest)
 
     # Calculate velocity
     self.vel = pygame.Vector2(self.path - self.pos).normalize()*self.speed*deltaTime
@@ -87,6 +90,21 @@ class Consumer(Entity):
       if self.pos.distance_to(food.pos) <= self.size:
         foods.remove(food)
         self.consumer_ate()
+
+    # Check if prey can be eaten
+    preyList = self.make_prey_list()
+    for prey in preyList:
+      if self.pos.distance_to(prey.pos) <= self.size:
+        consumers.remove(prey)
+        self.consumer_ate()
+
+  def make_prey_list(self): 
+    # Adds the creatures that are small enough to the list to be eaten
+    preyList = []
+    for consumer in consumers:
+      if self.size > 1.25 * consumer.size:
+        preyList.append(consumer)
+    return preyList
 
   def consumer_ate(self):
     # Replenish some energy
