@@ -142,7 +142,7 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
       # Continues generating food every so often
       if event.type == CREATE_FOOD:
         foods.append(Food())
-        foodDelay =+ 10
+        foodDelay += 10
         pygame.time.set_timer(CREATE_FOOD, foodDelay)
 
     # Combines the list of entities
