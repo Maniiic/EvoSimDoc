@@ -3,6 +3,7 @@ import sys
 import pygame
 import math
 import random
+import analysis
 
 #Constants
 black = (0, 0, 0)
@@ -135,7 +136,8 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
   senseVariance = startSenseVariance
   sizeVariance = startSizeVariance
   reproductionChance = startReproductionChance # 1 / reproductionChance
-  foodDelay = 1000
+  foodDelay = 1000000
+  run = True
 
   # Creates the inital list for creatures and food
   foods = [Food() for _ in range(foodAmount)]
@@ -148,7 +150,7 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
   pygame.display.set_caption("Simulation")
 
   #Main Loop
-  while True:
+  while run == True:
     surface.fill(backgroundColour)
 
     #Close window
@@ -165,6 +167,11 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
 
     # Combines the list of entities
     entities = foods + consumers # Add all future entities
+
+    # Check if there are any creatures
+    if len(consumers) == 0:
+      run = False
+      analysis.main()
 
     #Iterates through each entity
     for entity in entities:
