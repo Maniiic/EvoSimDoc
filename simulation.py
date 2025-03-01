@@ -25,6 +25,7 @@ margin = 50
 
 # Pygame event
 CREATE_FOOD = pygame.USEREVENT + 1
+COLLECT_DATA = pygame.USEREVENT + 2
 
 #Food and creatures will inherit from entity class
 class Entity:
@@ -117,7 +118,7 @@ class Consumer(Entity):
 
   def update_energy(self):
     # Decrease energy over time
-    self.energy -= 25
+    self.energy -= 0.25
 
     # Kills creature
     if self.energy <= 0:
@@ -137,15 +138,22 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
   senseVariance = startSenseVariance
   sizeVariance = startSizeVariance
   reproductionChance = startReproductionChance # 1 / reproductionChance
+
   foodDelay = 1000
+  dataDelay = 1000
+
   run = True
 
   # Creates the inital list for creatures and food
   foods = [Food() for _ in range(foodAmount)]
   consumers = [Consumer(random_vector(), startSpeed, startRange, startSize) for _ in range(consumerAmount)]
 
-  # Starts the food generation
+  # Start pygame events
+
+  # Food generation
   pygame.time.set_timer(CREATE_FOOD, foodDelay)
+  # Data collection
+  pygame.event.post(pygame.event.Event(COLLECT_DATA))
 
   #Set title of the window
   pygame.display.set_caption("Simulation")
@@ -165,6 +173,11 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
         foods.append(Food())
         foodDelay += 10
         pygame.time.set_timer(CREATE_FOOD, foodDelay)
+
+      # Collect the mean value of each trait every so often
+      if event.type == COLLECT_DATA:
+        print("COLLECT_DATA event called.")
+        pygame.time.set_timer(COLLECT_DATA, dataDelay)
 
     # Combines the list of entities
     entities = foods + consumers # Add all future entities
