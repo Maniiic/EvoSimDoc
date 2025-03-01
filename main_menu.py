@@ -42,8 +42,9 @@ sliders = [startSpeedSlider, startRangeSlider, startSizeSlider, speedVarianceSli
 
 def main_menu():
   pygame.display.set_caption("Main Menu")
+  run = True
 
-  while True:
+  while run == True:
     surface.fill(backgroundColour)
     
     for element in texts + buttons + sliders:
@@ -55,7 +56,8 @@ def main_menu():
     # Functions for each button
     if startButton.check_click():
       simulation.main(startSpeedSlider.currentVal, startRangeSlider.currentVal, startSizeSlider.currentVal, speedVarianceSlider.currentVal, rangeVarianceSlider.currentVal, sizeVarianceSlider.currentVal)
-    
+      run = False
+
     if quitButton.check_click():
       # Close window
       pygame.quit()

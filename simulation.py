@@ -116,7 +116,7 @@ class Consumer(Entity):
 
   def update_energy(self):
     # Decrease energy over time
-    self.energy -= 0.25
+    self.energy -= 25
 
     # Kills creature
     if self.energy <= 0:
@@ -136,7 +136,7 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
   senseVariance = startSenseVariance
   sizeVariance = startSizeVariance
   reproductionChance = startReproductionChance # 1 / reproductionChance
-  foodDelay = 1000000
+  foodDelay = 1000
   run = True
 
   # Creates the inital list for creatures and food
@@ -168,7 +168,7 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
     # Combines the list of entities
     entities = foods + consumers # Add all future entities
 
-    # Check if there are any creatures
+    # Check if all creatures died
     if len(consumers) == 0:
       run = False
       analysis.main()
