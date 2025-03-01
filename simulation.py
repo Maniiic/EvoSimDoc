@@ -139,8 +139,14 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
   sizeVariance = startSizeVariance
   reproductionChance = startReproductionChance # 1 / reproductionChance
 
+  # Event Delays
   foodDelay = 1000
   dataDelay = 1000
+
+  # Analysis Lists
+  averageSpeeds = []
+  averageSizes = []
+  averageRanges = []
 
   run = True
 
@@ -176,7 +182,13 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
 
       # Collect the mean value of each trait every so often
       if event.type == COLLECT_DATA:
-        print("COLLECT_DATA event called.")
+        totalSpeed = 0
+        for consumer in consumers:
+          totalSpeed += consumer.speed
+        averageSpeed = totalSpeed / len(consumers)
+        averageSpeeds.append(averageSpeed)
+        print(averageSpeeds)
+
         pygame.time.set_timer(COLLECT_DATA, dataDelay)
 
     # Combines the list of entities
