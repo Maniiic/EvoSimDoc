@@ -47,6 +47,7 @@ def main_menu():
   while run == True:
     surface.fill(backgroundColour)
     
+    # Draw GUI elements
     for element in texts + buttons + sliders:
       element.update(surface)
       if type(element) == gui.Slider:
