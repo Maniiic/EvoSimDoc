@@ -4,6 +4,7 @@ import pygame
 import sys
 import gui
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 #Constants
@@ -39,8 +40,15 @@ buttons = []
 def graph(yPoints, yAxis, dataDelay):
   xPoints = []
   for n in range(len(yPoints)):
-    xPoints.append(dataDelay*n)
-  plt.plot(xPoints, yPoints)
+    xPoints.append(dataDelay*n/1000)
+  yPoints = np.array(yPoints)
+  xPoints = np.array(xPoints)
+
+  # Find line of best fit
+  m, c = np.polyfit(xPoints, yPoints, 1)
+
+  plt.scatter(xPoints, yPoints)
+  plt.plot(xPoints, m*xPoints+c)
   plt.xlabel("Time / s")
   plt.ylabel(yAxis)
   plt.show()
@@ -51,6 +59,9 @@ def main(speeds, sizes, ranges, dataDelay):
 
   # Graphs
   graph(speeds, "Speed", dataDelay)
+  graph(sizes, "Size", dataDelay)
+  graph(ranges, "Range", dataDelay)
+
 
   #Set title of the window
   pygame.display.set_caption("Analysis")
