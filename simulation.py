@@ -40,7 +40,7 @@ class Entity:
     pygame.draw.circle(surface, self.col, self.pos, self.size)
 
 class Consumer(Entity):
-  def __init__(self, pos, speed, senseRange, size):
+  def __init__(self, pos, speed, range, size):
     super().__init__((255, 255, 255), size + random.uniform(-sizeVariance,sizeVariance)) # Attributes shared by classes
     self.pos = pos
     self.path = random_vector()
@@ -48,7 +48,7 @@ class Consumer(Entity):
 
     # Initial traits
     self.speed = speed + random.randint(-speedVariance, speedVariance)
-    self.senseRange = senseRange + random.randint(-senseVariance, senseVariance)
+    self.range = range + random.randint(-senseVariance, senseVariance)
 
 
   def update(self):
@@ -83,7 +83,7 @@ class Consumer(Entity):
     distance = self.pos.distance_to(target.pos)
     if distance < smallest:
       smallest = distance
-    if distance <= self.senseRange and distance == smallest:
+    if distance <= self.range and distance == smallest:
       self.path = target.pos
     return smallest
 
@@ -114,7 +114,7 @@ class Consumer(Entity):
     self.energy += 50
     # Might create a new creature
     if random.randint(1,reproductionChance) == 1:
-      consumers.append(Consumer(self.pos, self.speed, self.senseRange, self.size))
+      consumers.append(Consumer(self.pos, self.speed, self.range, self.size))
 
   def update_energy(self):
     # Decrease energy over time
@@ -131,6 +131,12 @@ class Food(Entity):
 def random_vector():
   # Generates a random vector position within the window
   return pygame.Vector2(random.randint(margin, int(res.x) - margin), random.randint(margin, int(res.y - margin)))
+
+def average_trait(trait):
+  total = sum(getattr(consumer, trait) for consumer in consumers)
+  averageValue = total/len(consumers)
+  roundedValue = round(averageValue, -int(math.floor(math.log10(averageValue))) + 2)
+  return roundedValue
 
 def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVariance, startSizeVariance, startReproductionChance= 2, consumerAmount=5, foodAmount=5):
   global foods, consumers, speedVariance, senseVariance, sizeVariance, reproductionChance # Add all future global variables
@@ -182,12 +188,9 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
 
       # Collect the mean value of each trait every so often
       if event.type == COLLECT_DATA:
-        totalSpeed = 0
-        for consumer in consumers:
-          totalSpeed += consumer.speed
-        averageSpeed = totalSpeed / len(consumers)
-        averageSpeeds.append(averageSpeed)
-        print(averageSpeeds)
+        averageSpeeds.append(average_trait("speed"))
+        averageSizes.append(average_trait("size"))
+        averageRanges.append(average_trait("range"))
 
         pygame.time.set_timer(COLLECT_DATA, dataDelay)
 
@@ -197,7 +200,7 @@ def main(startSpeed, startRange, startSize, startSpeedVariance, startSenseVarian
     # Check if all creatures died
     if len(consumers) == 0:
       run = False
-      analysis.main()
+      analysis.main(averageSpeeds, averageSizes, averageRanges, dataDelay)
 
     #Iterates through each entity
     for entity in entities:

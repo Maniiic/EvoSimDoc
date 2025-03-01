@@ -2,6 +2,7 @@
 #Imports
 import decimal
 import pygame
+import matplotlib.pyplot as plt
 
 pygame.init()
 

@@ -29,6 +29,9 @@ testButton3 = gui.Button(testButtonText3)
 
 buttons = [testButton1, testButton2, testButton3, testButtonQ]
 
+# Graph
+def create_graph():
+    testGraph = gui.Graph([1,9], [1,2])
 
 pygame.display.set_caption("Test screen")
 
@@ -49,7 +52,7 @@ while True:
         print("Test button 3 clicked")
 
     if testButtonQ.check_click():
-        print("Q button clicked")
+        create_graph()
 
     for event in pygame.event.get():
         # Close window
