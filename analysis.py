@@ -2,6 +2,7 @@
 #Imports
 import pygame
 import sys
+import main_menu
 import gui
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,24 +19,21 @@ surface = pygame.display.set_mode(res)
 clock = pygame.time.Clock()
 backgroundColour = black
 
-
-
 # Text
 titleText = gui.Text(res.x/2, res.y/10, "Analysis", fontSize=50)
 texts = [titleText]
 
-# # Buttons
-# generateSpeedGraphText = gui.Text(res.x/3, res.y/3, "Speed Graph", fontSize=40, textCol="black")
-# generateSpeedGraphButton = gui.Button(generateSpeedGraphText, buttonCol="green")
-# generateSizeGraphText = gui.Text(2*res.x/3, res.y/3, "Size Graph", fontSize=40, textCol="black")
-# generateSizeGraphButton = gui.Button(generateSizeGraphText, buttonCol="lightblue")
-# generateRangeGraphText = gui.Text(res.x/2, 2*res.y/3, "Range Graph", fontSize=40, textCol="black")
-# generateRangeGraphButton = gui.Button(generateRangeGraphText, buttonCol="yellow")
-# buttons = [generateSpeedGraphButton, generateSizeGraphButton, generateRangeGraphButton]
-
 # Buttons
+generateSpeedGraphText = gui.Text(res.x/3, res.y/3, "Speed Graph", fontSize=40, textCol="black")
+generateSpeedGraphButton = gui.Button(generateSpeedGraphText, buttonCol="green", width=220, height=50)
+generateSizeGraphText = gui.Text(2*res.x/3, res.y/3, "Size Graph", fontSize=40, textCol="black")
+generateSizeGraphButton = gui.Button(generateSizeGraphText, buttonCol="cyan", width=220, height=50)
+generateRangeGraphText = gui.Text(res.x/3, 2*res.y/3, "Range Graph", fontSize=40, textCol="black")
+generateRangeGraphButton = gui.Button(generateRangeGraphText, buttonCol="yellow", width=220, height=50)
+restartText = gui.Text(2*res.x/3, 2*res.y/3, "Restart", fontSize=40, textCol="black")
+restartButton = gui.Button(restartText, buttonCol="white", width=220, height=50)
+buttons = [generateSpeedGraphButton, generateSizeGraphButton, generateRangeGraphButton, restartButton]
 
-buttons = []
 
 def graph(yPoints, yAxis, dataDelay):
   xPoints = []
@@ -47,6 +45,7 @@ def graph(yPoints, yAxis, dataDelay):
   # Find line of best fit
   m, c = np.polyfit(xPoints, yPoints, 1)
 
+  plt.figure(num=(yAxis + " vs Time"))
   plt.scatter(xPoints, yPoints)
   plt.plot(xPoints, m*xPoints+c)
   plt.xlabel("Time / s")
@@ -57,12 +56,6 @@ def graph(yPoints, yAxis, dataDelay):
 def main(speeds, sizes, ranges, dataDelay):
   run = True
 
-  # Graphs
-  graph(speeds, "Speed", dataDelay)
-  graph(sizes, "Size", dataDelay)
-  graph(ranges, "Range", dataDelay)
-
-
   #Set title of the window
   pygame.display.set_caption("Analysis")
 
@@ -72,9 +65,16 @@ def main(speeds, sizes, ranges, dataDelay):
     # Draw GUI elements
     for element in texts + buttons:
       element.update(surface)
-      if type(element) == gui.Slider:
-        if element.check_click():
-          element.change_pos()
+
+    # Button checks
+    if generateSpeedGraphButton.check_click():
+      graph(speeds, "Speed", dataDelay)
+    if generateSizeGraphButton.check_click():
+      graph(sizes, "Size", dataDelay)
+    if generateRangeGraphButton.check_click():
+      graph(ranges, "Range", dataDelay)
+    if restartButton.check_click():
+      main_menu.main()
 
     #Close window
     for event in pygame.event.get():

@@ -40,7 +40,7 @@ sizeVarianceSlider = gui.Slider(7*res.x/16, 4*res.y/5, 0.2, 2, step=0.2)
 sliders = [startSpeedSlider, startRangeSlider, startSizeSlider, speedVarianceSlider, rangeVarianceSlider, sizeVarianceSlider]
 
 
-def main_menu():
+def main():
   pygame.display.set_caption("Main Menu")
   run = True
 
